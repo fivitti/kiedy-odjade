@@ -1,0 +1,26 @@
+{
+  "name": "ztm-gdansk",
+  "version": "1.0.0",
+  "description": "My webpack project",
+  "private": true,
+  "scripts": {
+    "build": "tsc-bundle tsconfig.json --outFile main.js --exportAs App",
+    "serve": "http-server -c 0",
+    "start": "concurrently \"npm run build -- --watch\" \"npm run serve\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "-"
+  },
+  "author": "Slawomir 'Fivitti' Figiel",
+  "license": "MIT",
+  "dependencies": {
+    "papercss": "^1.6.1"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.2",
+    "http-server": "^0.11.1",
+    "typescript": "^3.6.3",
+    "typescript-bundle": "^1.0.16"
+  }
+}
