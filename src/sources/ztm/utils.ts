@@ -1,17 +1,14 @@
 import { DELAY_API } from './config';
-
-export function toDate(raw: string): Date {
-    return new Date(raw);
-}
+import { parseDate } from '../../utils/dates';
 
 export function toTime(raw: string): Date {
     const today = new Date();
-    const [hours, minutes] = raw.split(":");
+    const hourDate = parseDate(raw, "%h:%m");
 
     today.setMilliseconds(0);
     today.setSeconds(0);
-    today.setMinutes(parseInt(minutes, 10));
-    today.setHours(parseInt(hours, 10));
+    today.setMinutes(hourDate.getMinutes());
+    today.setHours(hourDate.getHours());
 
     return today;
 }

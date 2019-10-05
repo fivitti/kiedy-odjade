@@ -7,7 +7,8 @@
     "prebuild": "rimraf build dist",
     "build": "tsc && rollup",
     "start": "npm run build -- -c rollup.config.debug.js",
-    "server": "http-server ./dist -g --ssl -C cert/server.cert -K cert/server.key",
+    "server-ssl": "npm run server -- --ssl -C cert/server.cert -K cert/server.key",
+    "server": "http-server ./dist -g",
     "deploy": "npm run build -- -c rollup.config.deploy.js && gh-pages -d dist"
   },
   "repository": {

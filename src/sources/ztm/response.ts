@@ -2,7 +2,8 @@ import { Delay, Timestamp } from '..';
 import { mapObject } from '../../utils/functional';
 import { noCorsFetch } from '../../utils/network';
 import { STOPS_API } from './config';
-import { delayUrl, toDate, toTime } from './utils';
+import { delayUrl, toTime } from './utils';
+import { parseDate } from '../../utils/dates';
 
 type DelayModel = Timestamp<Delay[]>;
 
@@ -95,7 +96,7 @@ function filterStopsResponse(obj: StopsResponse): StopsResponse {
     now.setSeconds(0);
     now.setMilliseconds(0);
     return Object.keys(obj)
-        .filter(k => +new Date(k) >= +now)
+        .filter(k => +parseDate(k, "%Y-%M-%D") >= +now)
         .reduce((acc, k) => ({ ...acc, [k]: obj[k] }), {});
 }
 
@@ -113,7 +114,7 @@ function toStopsModel(obj: StopsResponse): StopsModel {
 
     const lastUpdate = keys
         .map(k => obj[k].lastUpdate)
-        .map(d => new Date(d))
+        .map(d => parseDate(d, "%Y-%M-%D %h:%m:%s"))
         .sort((a, b) => +b - +a)[0];
 
     console.log("lastUpdate");
@@ -183,7 +184,7 @@ export async function getDelaysModel(stopId: number): Promise<DelayModel> {
     const response = await noCorsFetch(url);
     const data = await response.json() as DelayResponse;
     return {
-        lastUpdate: toDate(data.lastUpdate),
+        lastUpdate: parseDate(data.lastUpdate, "%Y-%M-%D %h:%m:%s"),
         data: data.delay
             .map(d => ({
                 seconds: d.delayInSeconds,
