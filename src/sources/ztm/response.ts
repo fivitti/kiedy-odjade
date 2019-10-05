@@ -101,9 +101,7 @@ function filterStopsResponse(obj: StopsResponse): StopsResponse {
 }
 
 function toStopsModel(obj: StopsResponse): StopsModel {
-    console.log("toStopsModel");
     obj = filterStopsResponse(obj);
-    console.log("After filtation");
     const keys = Object.keys(obj);
     if (keys.length === 0) {
         return {
@@ -117,7 +115,6 @@ function toStopsModel(obj: StopsResponse): StopsModel {
         .map(d => parseDate(d, "%Y-%M-%D %h:%m:%s"))
         .sort((a, b) => +b - +a)[0];
 
-    console.log("lastUpdate");
     const stops = mapObject(obj,
         (item) => item.stops
             .filter(s => !s.virtual)
@@ -131,7 +128,6 @@ function toStopsModel(obj: StopsResponse): StopsModel {
             }))
     );
 
-    console.log("Map object");
 
     return {
         lastUpdate,
@@ -142,13 +138,11 @@ function toStopsModel(obj: StopsResponse): StopsModel {
 
 export async function getStopsModel(): Promise<StopsModel> {
     const response = await fetch(STOPS_API);
-    console.log("Receive JSON stops");
     const json: StopsResponse = await response.json();
     return toStopsModel(json);
 }
 
 export function compressStopsModel(obj: StopsModel): CompressStopsModel {
-    console.log("obj.lastUpdate", obj.lastUpdate, "type", typeof obj.lastUpdate);
     return {
         lu: obj.lastUpdate.toISOString(),
         s: mapObject<StopModel[], CompressStopModel[]>(obj.stops, stops =>

@@ -29,7 +29,6 @@ export default class App {
     }
 
     public async init(): Promise<void> {
-        console.log("Init");
     }
 
     private async getNearestStops(stops: Stop[]): Promise<StopAndDistance[]> {
@@ -45,14 +44,10 @@ export default class App {
     }
 
     public async refresh() {
-        console.log("refresh");
         const stops = await this.source.getStops();
-        console.log("after getStops");
         const nearest = await this.getNearestStops(stops.data);
-        console.log("after getNearest");
         const delays = await Promise.all(nearest
             .map(s => this.source.getDelays(s.stopId)));
-        console.log("after fetch delays");
         delays.forEach(d => d.data
             .sort((a, b) => +a.estimated - +b.estimated));
         this.currentData = {
@@ -63,7 +58,6 @@ export default class App {
     }
 
     public render() {
-        console.log("render");
         const rootElement = document.getElementById(this.rootId);
         const stopTemplate = document.getElementById("stop-template") as HTMLTemplateElement;
         const delayRowTemplate = document.getElementById("delay-row") as HTMLTemplateElement;

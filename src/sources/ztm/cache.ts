@@ -37,14 +37,10 @@ export class CachedZtmSource extends ZtmSource implements ICache {
     }
 
     async refresh(): Promise<void> {
-        console.log("In cache refresh");
         const stops = await super.getModel();
-        console.log("After getModel in cache");
         const compressed = compressStopsModel(stops);
-        console.log("After compress");
         this.saveToLocalStorage(compressed);
         this.cache = stops;
-        console.log("refresh end");
     }
 
     private saveToLocalStorage(model: CompressStopsModel): void {
@@ -53,13 +49,10 @@ export class CachedZtmSource extends ZtmSource implements ICache {
         }
         while (Object.keys(model.s).length !== 0) {
             try {
-                console.log("Try save: ", Object.keys(model.s).length, "days");
                 const stringfied = JSON.stringify(model);
-                console.log("Size:", stringfied.length);
                 localStorage.setItem(CachedZtmSource.KEY, stringfied);
                 return;
             } catch (e) {
-                console.error(e);
                 this.removeLastDay(model);
             }
 

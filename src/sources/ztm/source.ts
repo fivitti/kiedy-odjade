@@ -23,9 +23,7 @@ export class ZtmSource implements ISource {
         if (day == null) {
             day = new Date();
         }
-        console.log("getStops");
         const model = await this.getDayModel(day);
-        console.log("After get day model");
         return {
             lastUpdate: model.lastUpdate,
             data: model.data
