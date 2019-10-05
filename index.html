@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Kiedy odjadę? - ZTM Trójmiasto</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='bundle.min.js'></script>
+</head>
+
+<body>
+    <div class="paper container">
+        <h3>Kiedy odjadę?</h3>
+        <p>Najbliższe odjazdy ZTM Trójmiasto</p>
+        <div id="content">
+            <p>Proszę czekać ładuję dane...</p>
+        </div>
+        <p>Dane przystanków: <span id="stop-last-update">Nigdy</span><span id="stop-update" class="right"></span></p>
+    </div>
+</body>
+<template id="stop-template">
+    <h3><span class="stop-name"></span><small class="stop-distance right">12m</small></h3>
+    <table class="stop-table">
+        <thead>
+            <tr>
+                <th>Linia</th>
+                <th>Do odjazdu</th>
+                <th>Estymowany odjazd</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</template>
+<template id="delay-row">
+    <tr>
+        <td class="line-no"></td>
+        <td class="line-to-arrive"></td>
+        <td class="line-estimated"></td>
+    </tr>
+</template>
+
+</html>
