@@ -1,14 +1,13 @@
 {
-  "name": "ztm-gdansk",
-  "main": "dist/ztm-gdansk.amd.js",
-  "module": "dist/ztm-gdansk.es5.js",
+  "name": "kiedy-odjade",
   "version": "1.0.0",
   "description": "My webpack project",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf build dist",
     "build": "tsc && rollup -c rollup.config.ts",
-    "server": "http-server ./dist -g"
+    "server": "http-server ./dist -g",
+    "publish": "node scripts/publish.js"
   },
   "repository": {
     "type": "git",

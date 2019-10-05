@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>ZTM Gdańsk - najbliższe odjazdy</title>
+    <title>Kiedy odjadę? - ZTM Trójmiasto</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='ztm-gdansk.es5.js'></script>
+    <script src='bundle.min.js'></script>
 </head>
+
 <body>
     <div class="paper container">
-        <h2>Najbliższe odjazdy ZTM Trójmiasto</h2>
+        <h3>Kiedy odjadę?</h3>
+        <p>Najbliższe odjazdy ZTM Trójmiasto</p>
         <div id="content">
             <p>Proszę czekać ładuję dane...</p>
         </div>
@@ -18,17 +21,17 @@
 </body>
 <template id="stop-template">
     <h3><span class="stop-name"></span><small class="stop-distance right">12m</small></h3>
-        <table class="stop-table">
-            <thead>
-                <tr>
-                    <th>Linia</th>
-                    <th>Do odjazdu</th>
-                    <th>Estymowany odjazd</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <table class="stop-table">
+        <thead>
+            <tr>
+                <th>Linia</th>
+                <th>Do odjazdu</th>
+                <th>Estymowany odjazd</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 </template>
 <template id="delay-row">
     <tr>
@@ -37,4 +40,5 @@
         <td class="line-estimated"></td>
     </tr>
 </template>
+
 </html>
