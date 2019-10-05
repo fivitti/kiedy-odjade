@@ -147,6 +147,7 @@ export async function getStopsModel(): Promise<StopsModel> {
 }
 
 export function compressStopsModel(obj: StopsModel): CompressStopsModel {
+    console.log("obj.lastUpdate", obj.lastUpdate, "type", typeof obj.lastUpdate);
     return {
         lu: obj.lastUpdate.toISOString(),
         s: mapObject<StopModel[], CompressStopModel[]>(obj.stops, stops =>
