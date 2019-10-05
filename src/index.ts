@@ -9,4 +9,7 @@ app.init()
     .then(() => app.render())
     .catch((err) => {
         console.error(err);
+        console.log(err.stack);
+        document.writeln(err.toString());
+        document.writeln(err.stack);
     });
