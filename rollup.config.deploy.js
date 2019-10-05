@@ -43,7 +43,8 @@ export default {
     }),
     gzipPlugin(),
     copy([
-      { files: "index.html", dest: "dist"}
+      { files: "index.html", dest: "dist" },
+      { files: "res/favicon/*", dest: "dist" }
     ], { verbose: true })
   ],
 }

@@ -166,6 +166,15 @@ export default class App {
 
             const tbodyElement = stopElement.querySelector("tbody");
 
+            if (stop.delays.length === 0) {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.colSpan = 3;
+                cell.textContent = "Brak danych o odjazdach";
+                row.appendChild(cell);
+                tbodyElement.appendChild(row);
+            }
+
             for (let delay of stop.delays) {
                 const rowElement = document.importNode(delayRowTemplate.content, true);
                 const lineNoElement = rowElement.querySelector(".line-no");

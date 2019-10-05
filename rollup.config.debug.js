@@ -35,9 +35,14 @@ export default {
         // Resolve source maps to the original source
         sourceMaps(),
         copy([{
-            files: "index.html",
-            dest: "dist"
-        }], {
+                files: "index.html",
+                dest: "dist"
+            },
+            {
+                files: "res/favicon/*",
+                dest: "dist"
+            }
+        ], {
             verbose: true
         })
     ],

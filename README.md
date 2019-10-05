@@ -10,7 +10,8 @@ Url: https://fivitti.github.io/kiedy-odjade
 - [x] Cache stops data
 - [x] Small size
 - [x] Exception handling
-- [x] Loding data indicators
+- [x] Loading data indicators
+- [x] Add favicon
 - [ ] Polish diacritics in font
 - [ ] English language
 - [ ] Display stops on the map
