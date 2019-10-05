@@ -34,7 +34,9 @@ export class CachedZtmSource extends ZtmSource implements ICache {
     }
 
     async refresh(): Promise<void> {
+        console.log("In cache refresh");
         const stops = await super.getModel();
+        console.log("After getModel in cache");
         const compressed = compressStopsModel(stops);
         localStorage.setItem(CachedZtmSource.KEY, JSON.stringify(compressed));
         this.cache = stops;

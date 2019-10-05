@@ -100,7 +100,9 @@ function filterStopsResponse(obj: StopsResponse): StopsResponse {
 }
 
 function toStopsModel(obj: StopsResponse): StopsModel {
+    console.log("toStopsModel");
     obj = filterStopsResponse(obj);
+    console.log("After filtation");
     const keys = Object.keys(obj);
     if (keys.length === 0) {
         return {
@@ -114,6 +116,7 @@ function toStopsModel(obj: StopsResponse): StopsModel {
         .map(d => new Date(d))
         .sort((a, b) => +b - +a)[0];
 
+    console.log("lastUpdate");
     const stops = mapObject(obj,
         (item) => item.stops
             .filter(s => !s.virtual)
@@ -127,6 +130,8 @@ function toStopsModel(obj: StopsResponse): StopsModel {
             }))
     );
 
+    console.log("Map object");
+
     return {
         lastUpdate,
         stops
@@ -136,6 +141,7 @@ function toStopsModel(obj: StopsResponse): StopsModel {
 
 export async function getStopsModel(): Promise<StopsModel> {
     const response = await fetch(STOPS_API);
+    console.log("Receive JSON stops");
     const json: StopsResponse = await response.json();
     return toStopsModel(json);
 }
