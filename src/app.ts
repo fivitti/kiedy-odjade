@@ -147,6 +147,7 @@ export default class App {
         if (isCache(source)) {
             const refreshButton = document.querySelector(".stop-update") as HTMLButtonElement;
             refreshButton.onclick = () => {
+                refreshButton.classList.add("invisible");
                 this.renderLoader();
                 source.refresh()
                     .then(() => this.redraw());
