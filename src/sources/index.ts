@@ -1,6 +1,6 @@
-import { Coordinates } from "../utils/geo";
-import ZtmSource from "./ztm";
-import LocalSource from "./local";
+import { Coordinates } from '../utils/geo';
+import LocalSource from './local';
+import ZtmSource from './ztm';
 
 export interface Stop extends Coordinates {
     stopId: number,

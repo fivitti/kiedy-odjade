@@ -1,40 +1,33 @@
-import { Delay, ISource, Stop, Timestamp } from '..';
 import { CoordinateSystem } from '../../utils/geo';
-import { getDelaysModel, getStopsModel, StopModel, StopsModel } from './response';
+import { getDelaysModel, getStopsModel } from './response';
 import { getDateKey } from './utils';
-
-export class ZtmSource implements ISource {
-    protected getModel(): Promise<StopsModel> {
+export class ZtmSource {
+    getModel() {
         return getStopsModel();
     }
-
-    protected async getDayModel(day: Date): Promise<Timestamp<StopModel[]>> {
+    async getDayModel(day) {
         const key = getDateKey(day);
         const model = await this.getModel();
         const entry = model.stops[key];
-
         return {
             lastUpdate: model.lastUpdate,
             data: entry
         };
     }
-
-    async getStops(day?: Date): Promise<Timestamp<Stop[]>> {
+    async getStops(day) {
         if (day == null) {
             day = new Date();
         }
-
         const model = await this.getDayModel(day);
-
         return {
             lastUpdate: model.lastUpdate,
             data: model.data
                 .map(e => Object
-                    .assign({}, e, { coordinateSystem: CoordinateSystem.WGS84 }))
+                .assign({}, e, { coordinateSystem: CoordinateSystem.WGS84 }))
         };
     }
-
-    async getDelays(stopId: number): Promise<Timestamp<Delay[]>> {
+    async getDelays(stopId) {
         return getDelaysModel(stopId);
     }
 }
+//# sourceMappingURL=source.js.map

@@ -1,4 +1,4 @@
-import spherical from "./spherical";
+import spherical from './spherical';
 
 export {
     spherical

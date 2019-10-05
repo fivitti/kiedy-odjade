@@ -1,8 +1,9 @@
-import { mapObject } from "../../utils/functional";
-import { STOPS_API } from "./config";
-import { getDateKey, delayUrl, toDate, toTime } from "./utils";
-import { noCorsFetch } from "../../utils/network";
-import { Delay, Timestamp } from "..";
+import { Delay, Timestamp } from '..';
+import { mapObject } from '../../utils/functional';
+import { noCorsFetch } from '../../utils/network';
+import { STOPS_API } from './config';
+import { delayUrl, toDate, toTime } from './utils';
+
 type DelayModel = Timestamp<Delay[]>;
 
 interface StopResponse {
@@ -32,7 +33,7 @@ interface StopResponse {
 interface StopsResponseEntry {
     lastUpdate: string;
     stops: StopResponse[];
-    
+
 }
 
 interface StopsResponse {
@@ -115,15 +116,15 @@ function toStopsModel(obj: StopsResponse): StopsModel {
 
     const stops = mapObject(obj,
         (item) => item.stops
-                .filter(s => !s.virtual)
-                .map<StopModel>(s => ({
-                    name: `${s.stopName} ${s.subName}`,
-                    onDemand: s.onDemand === 1,
-                    stopId: s.stopId,
-                    zoneId: s.zoneId,
-                    latitude: s.stopLat,
-                    longitude: s.stopLon
-                }))
+            .filter(s => !s.virtual)
+            .map<StopModel>(s => ({
+                name: `${s.stopName} ${s.subName}`,
+                onDemand: s.onDemand === 1,
+                stopId: s.stopId,
+                zoneId: s.zoneId,
+                latitude: s.stopLat,
+                longitude: s.stopLon
+            }))
     );
 
     return {
