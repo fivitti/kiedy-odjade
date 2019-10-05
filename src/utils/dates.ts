@@ -63,13 +63,13 @@ export function parseDate(txt: string, pattern: string): Date {
         if (readPattern) {
             readPattern = false;
 
-            const rule = RULES[pattern];
+            const rule = RULES[char];
             if (rule == null) {
-                throw new Error(`Invalid pattern: ${pattern}`);
+                throw new Error(`Invalid pattern: ${char}`);
             } else if (txtIdx + rule.size > txt.length) {
                 throw new Error("Not enough characters");
             } else if (result[rule.target] != null) {
-                throw new Error(`Repeated pattern: ${pattern}`);
+                throw new Error(`Repeated pattern: ${char}`);
             }
             const raw = txt.slice(txtIdx, txtIdx + rule.size);
             txtIdx += rule.size;
