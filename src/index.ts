@@ -10,6 +10,7 @@ app.init()
     .catch((err) => {
         console.error(err);
         console.log(err.stack);
-        document.writeln(err.toString());
-        document.writeln(err.stack);
+        document.writeln("Error:",err.toString());
+        document.writeln("Message:", err.message);
+        document.writeln("Stack:", err.stack);
     });
