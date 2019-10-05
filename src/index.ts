@@ -3,7 +3,6 @@ import "papercss/dist/paper.min.css";
 
 import App from "./app";
 
-
 const app = new App("content");
 app.init()
     .then(() => app.refresh())
