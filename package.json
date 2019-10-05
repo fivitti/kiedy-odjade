@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf build dist",
-    "build": "tsc && rollup",
+    "build": "rollup",
     "start": "npm run build -- -c rollup.config.debug.js",
     "server-ssl": "npm run server -- --ssl -C cert/server.cert -K cert/server.key",
     "server": "http-server ./dist -g",

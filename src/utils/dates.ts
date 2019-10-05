@@ -61,7 +61,6 @@ export function parseDate(txt: string, pattern: string): Date {
 
     for (const char of pattern) {
         if (readPattern) {
-            const pattern = char;
             readPattern = false;
 
             const rule = RULES[pattern];
@@ -76,7 +75,6 @@ export function parseDate(txt: string, pattern: string): Date {
             txtIdx += rule.size;
             const value = parseInt(raw, 10);
             result[rule.target] = value;
-            readPattern = false;
             continue;
         }
         if (char === "%") {
@@ -89,5 +87,5 @@ export function parseDate(txt: string, pattern: string): Date {
         txtIdx += 1;
     }
 
-    return new Date(result.year || 1970, result.month || 1, result.day || 1, result.hour || 0, result.minute || 0, result.second || 0);
+    return new Date(result.year || 1970, (result.month - 1) || 0, result.day || 1, result.hour || 0, result.minute || 0, result.second || 0);
 }
