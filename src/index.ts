@@ -9,4 +9,7 @@ console.log("Create oject");
 app.init()
     .then(() => app.refresh())
     .then(() => app.render())
-    .catch((err) => console.error(err));
+    .catch((err) => {
+        console.error(err);
+        console.log(err.stack);
+    });
