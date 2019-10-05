@@ -1,15 +1,16 @@
-# 🚀 Welcome to your new awesome project!
+# Kiedy odjadę
 
-This project has been created using **webpack scaffold**, you can now run
+Simple web application to display nearest departures of bus and trams in Tricity (in Poland).
 
-```
-npm run build
-```
+Url: https://fivitti.github.io/kiedy-odjade
 
-or
+## To do
 
-```
-yarn build
-```
-
-to bundle your application
+- [x] Nearest departures
+- [x] Cache stops data
+- [x] Small size
+- [ ] Loding data indicators
+- [ ] English language
+- [ ] Display stops on the map
+- [ ] Display vehicle positions
+- [ ] SKM data
