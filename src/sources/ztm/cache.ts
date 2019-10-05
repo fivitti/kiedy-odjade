@@ -53,9 +53,14 @@ export class CachedZtmSource extends ZtmSource implements ICache {
         }
         while (Object.keys(model.s).length !== 0) {
             try {
-                localStorage.setItem(CachedZtmSource.KEY, JSON.stringify(model));
+                console.log("Try save: ", Object.keys(model.s).length, "days");
+                const stringfied = JSON.stringify(model);
+                console.log("Size:", stringfied.length);
+                localStorage.setItem(CachedZtmSource.KEY, stringfied);
+                return;
             } catch (e) {
-                model = this.removeLastDay(model);
+                console.error(e);
+                this.removeLastDay(model);
             }
 
         }
@@ -70,12 +75,16 @@ export class CachedZtmSource extends ZtmSource implements ICache {
         return compressed;
     }
 
-    private removeLastDay(model: CompressStopsModel): CompressStopsModel {
-        return {
-            lu: model.lu,
-            s: Object.keys(model.s).slice(0, -1)
-                .reduce((acc, k) => ({ ...acc, [k]: model.s[k] }), {})
+    private removeLastDay(model: CompressStopsModel) {
+        const keys = Object.keys(model.s)
+            .sort((a, b) => b.localeCompare(a));
+
+        if (keys.length === 0) {
+            return;
         }
+
+        const last = keys[0];
+        delete model.s[last]
     }
-    
+
 }
