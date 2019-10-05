@@ -7,7 +7,7 @@
     "prebuild": "rimraf build dist",
     "build": "tsc && rollup -c rollup.config.ts",
     "server": "http-server ./dist -g",
-    "publish": "node scripts/publish.js"
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
