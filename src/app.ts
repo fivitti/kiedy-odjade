@@ -105,7 +105,7 @@ export default class App {
             const retryButton = errorElement.querySelector(".retry") as HTMLButtonElement;
 
             const error = this.currentData.error;
-            if (error.constructor.name === "PositionError") {
+            if (error.name === "PositionError" || error.constructor.name === "PositionError") {
                 titleElement.textContent = "Brak dostępu do lokalizacji";
                 messageElement.textContent = "Ta aplikacja do działania musi wiedzieć, gdzie jesteś. " +
                     "Wszakże chodzi o to, aby pokazać najbliższe Tobie przystanki. " +
@@ -114,7 +114,7 @@ export default class App {
                     "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
                     "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
             } else {
-                titleElement.textContent = error.name || error.constructor.name;
+                titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
                 messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
                 stackElement.textContent = error.stack;
             }
