@@ -27,6 +27,14 @@ interface StopsRenderData {
     stopData: StopDistanceDelay[]
 }
 
+const POSITION_ERROR_NAME = "PositionError";
+
+function checkErrorType(error: Error, name: string): boolean {
+    return error.name === name ||
+        error.constructor.name === name ||
+        error.toString().indexOf(name) !== -1;
+}
+
 export default class App {
     private currentData: RenderData = {
         lastUpdate: null,
@@ -105,7 +113,7 @@ export default class App {
             const retryButton = errorElement.querySelector(".retry") as HTMLButtonElement;
 
             const error = this.currentData.error;
-            if (error.name === "PositionError" || error.constructor.name === "PositionError") {
+            if (checkErrorType(error, POSITION_ERROR_NAME)) {
                 titleElement.textContent = "Brak dostępu do lokalizacji";
                 messageElement.textContent = "Ta aplikacja do działania musi wiedzieć, gdzie jesteś. " +
                     "Wszakże chodzi o to, aby pokazać najbliższe Tobie przystanki. " +
