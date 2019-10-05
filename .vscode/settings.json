@@ -1,5 +1,4 @@
 {
     "editor.formatOnSave": true,
-    "typescriptHero.imports.organizeOnSave": true,
     "files.autoSave": "afterDelay"
 }

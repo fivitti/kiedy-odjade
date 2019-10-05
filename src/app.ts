@@ -2,6 +2,7 @@ import { Delay, isCache, ISource, Stop, ZtmSource } from './sources';
 import * as distance from './utils/distance';
 import { formatDistance, formatTime, formatTimespan } from './utils/format';
 import { getCurrentPosition } from './utils/geo';
+import { allInRadiusOrTopNearestStartegy } from "./select-strategies";
 
 interface StopAndDistance extends Stop {
     distance: number
@@ -21,6 +22,7 @@ export default class App {
         };
     //private source: ISource = new LocalSource();
     private source: ISource = new ZtmSource();
+    private stopsSelector = allInRadiusOrTopNearestStartegy(300, 5);
 
     constructor(private rootId: string) {
 
@@ -34,9 +36,12 @@ export default class App {
         const currentPosition = await getCurrentPosition();
         const distances = stops.map(s => distance.spherical(currentPosition, s));
 
-        return stops
-            .map((stop, idx) => ({ ...stop, distance: distances[idx] }))
-            .sort((a, b) => a.distance - b.distance);
+        const distancedStops = stops
+            .map((stop, idx) => ({ ...stop, distance: distances[idx] }));
+
+        const nearestStops = this.stopsSelector(distancedStops);
+
+        return nearestStops.sort((a, b) => a.distance - b.distance);
     }
 
     public async refresh() {

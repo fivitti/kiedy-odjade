@@ -5,9 +5,10 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf build dist",
-    "build": "tsc && rollup -c rollup.config.ts",
+    "build": "tsc && rollup",
+    "start": "npm run build -- -c rollup.config.debug.js",
     "server": "http-server ./dist -g",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build -- -c rollup.config.deploy.js && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
