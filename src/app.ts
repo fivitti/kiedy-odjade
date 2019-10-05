@@ -32,7 +32,8 @@ const POSITION_ERROR_NAME = "PositionError";
 function checkErrorType(error: Error, name: string): boolean {
     return error.name === name ||
         error.constructor.name === name ||
-        error.toString().indexOf(name) !== -1;
+        error.toString().indexOf(name) !== -1 ||
+        ("" + error).indexOf(name) !== -1;
 }
 
 export default class App {
