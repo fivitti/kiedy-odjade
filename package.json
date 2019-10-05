@@ -7,7 +7,7 @@
     "prebuild": "rimraf build dist",
     "build": "tsc && rollup",
     "start": "npm run build -- -c rollup.config.debug.js",
-    "server": "http-server ./dist -g",
+    "server": "http-server ./dist -g --ssl -C cert/server.cert -K cert/server.key",
     "deploy": "npm run build -- -c rollup.config.deploy.js && gh-pages -d dist"
   },
   "repository": {
@@ -22,7 +22,7 @@
   "devDependencies": {
     "cssnano": "^4.1.10",
     "gh-pages": "^2.1.1",
-    "http-server": "^0.11.1",
+    "http-server": "=0.9.0",
     "livereload": "^0.8.2",
     "rimraf": "^3.0.0",
     "rollup": "^1.23.0",
