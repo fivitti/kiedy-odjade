@@ -9,8 +9,9 @@ Url: https://fivitti.github.io/kiedy-odjade
 - [x] Nearest departures
 - [x] Cache stops data
 - [x] Small size
-- [ ] Exception handling
-- [ ] Loding data indicators
+- [x] Exception handling
+- [x] Loding data indicators
+- [ ] Polish diacritics in font
 - [ ] English language
 - [ ] Display stops on the map
 - [ ] Display vehicle positions

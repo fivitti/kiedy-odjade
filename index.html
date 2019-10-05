@@ -6,7 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Kiedy odjadę? - ZTM Trójmiasto</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='bundle.js'></script>
+    <script src='bundle.js' defer></script>
 </head>
 
 <body>
@@ -14,9 +14,13 @@
         <h3>Kiedy odjadę?</h3>
         <p>Najbliższe odjazdy ZTM Trójmiasto</p>
         <div id="content">
-            <p>Proszę czekać ładuję dane...</p>
+            <div class="loader-container">
+                <h2 class="blink">Ładuję</h2>
+            </div>
         </div>
-        <p>Dane przystanków: <span id="stop-last-update">Nigdy</span><span id="stop-update" class="right"></span></p>
+        <p>Dane przystanków: <span id="stop-last-update">...</span>
+            <button class="stop-update invisible btn-small right">Odśwież</button>
+        </p>
     </div>
 </body>
 <template id="stop-template">
@@ -39,6 +43,18 @@
         <td class="line-to-arrive"></td>
         <td class="line-estimated"></td>
     </tr>
+</template>
+<template id="error-template">
+    <h3 class="text-danger">Coś nie pykło!</h3>
+    <p class="title"></p>
+    <p class="message"></p>
+    <p class="stack"></p>
+    <button class="retry background-success">Spróbuj jeszcze raz</button>
+</template>
+<template id="loader-template">
+    <div class="loader-container">
+        <h2 class="blink">Ładuję</h2>
+    </div>
 </template>
 
 </html>

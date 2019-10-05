@@ -5,8 +5,7 @@ import App from "./app";
 
 const app = new App("content");
 app.init()
-    .then(() => app.refresh())
-    .then(() => app.render())
+    .then(() => app.redraw())
     .catch((err) => {
         console.error(err);
         console.log(err.stack);
