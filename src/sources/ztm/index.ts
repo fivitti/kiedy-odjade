@@ -1,4 +1,8 @@
 import { CachedZtmSource } from './cache';
+import { checkLocalStorageSupport } from '../../utils/localstorage';
+import { ZtmSource } from './source';
 
-const Source = CachedZtmSource;
+const isLocalStorageSupported = checkLocalStorageSupport();
+
+const Source = isLocalStorageSupported ? CachedZtmSource : ZtmSource;
 export default Source;

@@ -1,17 +1,14 @@
 import { ICache, Timestamp } from '..';
-import { compressStopsModel, decompressStopsModel, StopModel, StopsModel, CompressStopsModel } from './response';
+import { compressStopsModel, CompressStopsModel, decompressStopsModel, StopModel, StopsModel } from './response';
 import { ZtmSource } from './source';
 import { getDateKey } from './utils';
-import { checkLocalStorageSupport } from '../../utils/localstorage';
 
 export class CachedZtmSource extends ZtmSource implements ICache {
     private static KEY = "stops";
     private cache: StopsModel = null;
-    private isLocalStorageSupported = false;
 
     constructor() {
         super();
-        this.isLocalStorageSupported = checkLocalStorageSupport();
 
         const compressed = this.getFromLocalStorage();
         if (compressed != null) {
@@ -44,9 +41,6 @@ export class CachedZtmSource extends ZtmSource implements ICache {
     }
 
     private saveToLocalStorage(model: CompressStopsModel): void {
-        if (!this.isLocalStorageSupported) {
-            return;
-        }
         while (Object.keys(model.s).length !== 0) {
             try {
                 const stringfied = JSON.stringify(model);
@@ -60,9 +54,6 @@ export class CachedZtmSource extends ZtmSource implements ICache {
     }
 
     private getFromLocalStorage(): CompressStopsModel {
-        if (!this.isLocalStorageSupported) {
-            return null;
-        }
         const str = localStorage.getItem(CachedZtmSource.KEY);
         const compressed = JSON.parse(str);
         return compressed;

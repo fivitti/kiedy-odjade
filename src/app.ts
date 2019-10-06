@@ -3,6 +3,7 @@ import * as distance from './utils/distance';
 import { formatDistance, formatTime, formatTimespan } from './utils/format';
 import { getCurrentPosition, Coordinates } from './utils/geo';
 import { allInRadiusOrTopNearestStartegy } from "./select-strategies";
+import ForegroundTimer from './foreground-timer';
 
 interface StopAndDistance extends Stop {
     distance: number
@@ -44,6 +45,7 @@ export default class App {
     //private source: ISource = new LocalSource();
     private source: ISource = new ZtmSource();
     private stopsSelector = allInRadiusOrTopNearestStartegy(300, 5);
+    private autoRefresh = new ForegroundTimer(60 * 1000, () => this.redraw());
 
     constructor(private rootId: string) {
 
@@ -93,18 +95,26 @@ export default class App {
     }
 
     private renderLoader() {
+        this.autoRefresh.close();
+
         const rootElement = document.getElementById(this.rootId);
         const loaderTemplate = document.getElementById("loader-template") as HTMLTemplateElement;
         const loader = document.importNode(loaderTemplate.content, true);
-
+        
         rootElement.innerHTML = '';
         rootElement.appendChild(loader);
     }
-
+    
     private render() {
+        this.autoRefresh.run();
+        
+        const now = new Date();
         const rootElement = document.getElementById(this.rootId);
         rootElement.innerHTML = '';
 
+        const refreshAtElement = document.getElementById("refresh-at");
+        refreshAtElement.textContent = now.toLocaleTimeString(undefined, { timeStyle: "short" } as any);
+        
         if (isErrorRenderData(this.currentData)) {
             const errorTemplate = document.getElementById("error-template") as HTMLTemplateElement;
             const errorElement = document.importNode(errorTemplate.content, true);
@@ -112,7 +122,7 @@ export default class App {
             const messageElement = errorElement.querySelector(".message");
             const stackElement = errorElement.querySelector(".stack");
             const retryButton = errorElement.querySelector(".retry") as HTMLButtonElement;
-
+            
             const error = this.currentData.error;
             if (checkErrorType(error, POSITION_ERROR_NAME)) {
                 titleElement.textContent = "Brak dostępu do lokalizacji";
@@ -122,27 +132,26 @@ export default class App {
                     "\n" +
                     "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
                     "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
-            } else {
-                titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
-                messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
-                stackElement.textContent = error.stack;
-            }
+                } else {
+                    titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
+                    messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
+                    stackElement.textContent = error.stack;
+                }
 
-            retryButton.onclick = () => this.redraw();
+                retryButton.onclick = () => this.redraw();
             rootElement.appendChild(errorElement);
             return;
         }
-
+        
         const stopTemplate = document.getElementById("stop-template") as HTMLTemplateElement;
         const delayRowTemplate = document.getElementById("delay-row") as HTMLTemplateElement;
 
-        const now = new Date();
-
+        
         const stopsLastUpdateElement = document.querySelector("#stop-last-update");
         const stopLastUpdateStr = this.currentData.lastUpdate.toLocaleString();
         const stopLastUpdateAgo = formatTimespan(+now - +this.currentData.lastUpdate, 'days');
         stopsLastUpdateElement.textContent = `${stopLastUpdateStr} (${stopLastUpdateAgo})`;
-
+        
         const source = this.source;
         if (isCache(source)) {
             const refreshButton = document.querySelector(".stop-update") as HTMLButtonElement;
@@ -150,12 +159,12 @@ export default class App {
                 refreshButton.classList.add("invisible");
                 this.renderLoader();
                 source.refresh()
-                    .then(() => this.redraw());
+                .then(() => this.redraw());
             }
-
+            
             refreshButton.classList.remove("invisible");
         }
-
+        
         for (let stop of this.currentData.stopData) {
             const stopElement = document.importNode(stopTemplate.content, true);
             const stopNameElement = stopElement.querySelector(".stop-name");
