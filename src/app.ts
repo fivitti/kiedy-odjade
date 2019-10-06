@@ -2,6 +2,7 @@ import { Delay, isCache, ISource, Stop, ZtmSource } from './sources';
 import * as distance from './utils/distance';
 import { formatDistance, formatTime, formatTimespan } from './utils/format';
 import { getCurrentPosition, Coordinates } from './utils/geo';
+import { isPageVisibilityApiSupported } from "./utils/pagevisibility";
 import { allInRadiusOrTopNearestStartegy } from "./select-strategies";
 import ForegroundTimer from './foreground-timer';
 
@@ -46,6 +47,7 @@ export default class App {
     private source: ISource = new ZtmSource();
     private stopsSelector = allInRadiusOrTopNearestStartegy(300, 5);
     private autoRefresh = new ForegroundTimer(60 * 1000, () => this.redraw());
+    private isAutoRefreshSupported = isPageVisibilityApiSupported();
 
     constructor(private rootId: string) {
 
@@ -100,20 +102,21 @@ export default class App {
         const rootElement = document.getElementById(this.rootId);
         const loaderTemplate = document.getElementById("loader-template") as HTMLTemplateElement;
         const loader = document.importNode(loaderTemplate.content, true);
-        
+
         rootElement.innerHTML = '';
         rootElement.appendChild(loader);
     }
-    
+
     private render() {
-        
+
         const now = new Date();
         const rootElement = document.getElementById(this.rootId);
         rootElement.innerHTML = '';
-        
+
         const refreshAtElement = document.getElementById("refresh-at");
         refreshAtElement.textContent = now.toLocaleTimeString(undefined, { timeStyle: "short" } as any);
-        
+        //refreshAtElement.textContent = now.toISOString();
+
         if (isErrorRenderData(this.currentData)) {
             const errorTemplate = document.getElementById("error-template") as HTMLTemplateElement;
             const errorElement = document.importNode(errorTemplate.content, true);
@@ -121,62 +124,66 @@ export default class App {
             const messageElement = errorElement.querySelector(".message");
             const stackElement = errorElement.querySelector(".stack");
             const retryButton = errorElement.querySelector(".retry") as HTMLButtonElement;
-            
+
             const error = this.currentData.error;
             if (checkErrorType(error, POSITION_ERROR_NAME)) {
                 titleElement.textContent = "Brak dostępu do lokalizacji";
                 messageElement.textContent = "Ta aplikacja do działania musi wiedzieć, gdzie jesteś. " +
-                "Wszakże chodzi o to, aby pokazać najbliższe Tobie przystanki. " +
-                "Odśwież stronę i tym razem zaakceptuj prośbę o użycie Twojego położenia." +
-                "\n" +
-                "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
-                "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
+                    "Wszakże chodzi o to, aby pokazać najbliższe Tobie przystanki. " +
+                    "Odśwież stronę i tym razem zaakceptuj prośbę o użycie Twojego położenia." +
+                    "\n" +
+                    "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
+                    "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
             } else {
                 titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
                 messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
                 stackElement.textContent = error.stack;
             }
-            
+
             retryButton.onclick = () => this.redraw();
             rootElement.appendChild(errorElement);
             return;
         }
 
-        this.autoRefresh.run();
-        
+
         const stopTemplate = document.getElementById("stop-template") as HTMLTemplateElement;
         const delayRowTemplate = document.getElementById("delay-row") as HTMLTemplateElement;
-        
-        
+
         const stopsLastUpdateElement = document.querySelector("#stop-last-update");
         const stopLastUpdateStr = this.currentData.lastUpdate.toLocaleString();
-            const stopLastUpdateAgo = formatTimespan(+now - +this.currentData.lastUpdate, 'days');
-            stopsLastUpdateElement.textContent = `${stopLastUpdateStr} (${stopLastUpdateAgo})`;
-            
-            const source = this.source;
-            if (isCache(source)) {
-                const refreshButton = document.querySelector(".stop-update") as HTMLButtonElement;
-                refreshButton.onclick = () => {
-                    refreshButton.classList.add("invisible");
-                    this.renderLoader();
-                    source.refresh()
-                    .then(() => this.redraw());
-                }
-                
-                refreshButton.classList.remove("invisible");
-            }
-            
+        const stopLastUpdateAgo = formatTimespan(+now - +this.currentData.lastUpdate, 'days');
+        stopsLastUpdateElement.textContent = `${stopLastUpdateStr} (${stopLastUpdateAgo})`;
 
-            for (let stop of this.currentData.stopData) {
+        const source = this.source;
+        if (isCache(source)) {
+            const refreshButton = document.querySelector(".stop-update") as HTMLButtonElement;
+            refreshButton.onclick = () => {
+                refreshButton.classList.add("invisible");
+                this.renderLoader();
+                source.refresh()
+                    .then(() => this.redraw());
+            }
+
+            refreshButton.classList.remove("invisible");
+        }
+        if (!isPageVisibilityApiSupported) {
+            const negationVerb = document.querySelector("#refresh-support-negation");
+            negationVerb.classList.remove("invisible");
+            const refreshButton = document.querySelector("#refresh-delays-button") as HTMLButtonElement;
+            refreshButton.classList.remove("invisible");
+            refreshButton.onclick = () => this.redraw();
+        }
+
+        for (let stop of this.currentData.stopData) {
             const stopElement = document.importNode(stopTemplate.content, true);
             const stopNameElement = stopElement.querySelector(".stop-name");
             const stopDistanceElement = stopElement.querySelector(".stop-distance");
-            
+
             stopNameElement.textContent = stop.name;
             stopDistanceElement.textContent = formatDistance(stop.distance);
-            
+
             const tbodyElement = stopElement.querySelector("tbody");
-            
+
             if (stop.delays.length === 0) {
                 const row = document.createElement("tr");
                 const cell = document.createElement("td");
@@ -200,5 +207,6 @@ export default class App {
 
             rootElement.appendChild(stopElement);
         }
+        this.autoRefresh.run();
     }
 }

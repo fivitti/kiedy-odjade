@@ -1,13 +1,14 @@
-interface VisibilityBrowserCapabilities { event: string, hidden: string }
+import { PageVisibilityApiCapabilities, getPageVisibilityApiCapabilities } from "./utils/pagevisibility";
+
 
 export default class ForegroundTimer {
-    private capabilities: VisibilityBrowserCapabilities = null;
+    private capabilities: PageVisibilityApiCapabilities = null;
     private lastUpdate: number = 0;
     private timerHandler: number = null;
     private isRun: boolean = false;
 
     constructor(private interval: number, private callback: (date: Date) => void) {
-        this.capabilities = this.getBrowserCapabilities();
+        this.capabilities = getPageVisibilityApiCapabilities();
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
         this.onTimer = this.onTimer.bind(this);
     }
@@ -70,24 +71,5 @@ export default class ForegroundTimer {
         }
     }
 
-    private getBrowserCapabilities(): VisibilityBrowserCapabilities {
-        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
-            return {
-                event: "visibilitychange",
-                hidden: "hidden"
-            };
-        } else if (typeof (document as any).msHidden !== "undefined") {
-            return {
-                event: "msvisibilitychange",
-                hidden: "msHidden"
-            }
-        } else if (typeof (document as any).webkitHidden !== "undefined") {
-            return {
-                event: "webkitvisibilitychange",
-                hidden: "webkitHidden"
-            }
-        } else {
-            return null; // Unsupported
-        }
-    }
+
 }
