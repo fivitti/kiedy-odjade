@@ -166,7 +166,7 @@ export default class App {
 
             refreshButton.classList.remove("invisible");
         }
-        if (!isPageVisibilityApiSupported) {
+        if (!this.isAutoRefreshSupported) {
             const negationVerb = document.querySelector("#refresh-support-negation");
             negationVerb.classList.remove("invisible");
             const refreshButton = document.querySelector("#refresh-delays-button") as HTMLButtonElement;
