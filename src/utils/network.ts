@@ -2,7 +2,9 @@ export async function noCorsFetch(url: string): Promise<Response> {
     const proxyUrl = "https://cors.figiel.xyz/" + url;
     const res = await fetch(proxyUrl, {
         headers: {
-            "x-requested-with": window.location.origin
+            "x-requested-with": window.location.origin,
+            "cache-control": "no-cache",
+            "pragma": "no-cache"
         }
     });
     if (res.ok) {
