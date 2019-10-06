@@ -26,9 +26,18 @@
                 <h2 class="blink">Ładuję</h2>
             </div>
         </div>
-        <p>Dane przystanków: <span id="stop-last-update">...</span>
-            <button class="stop-update invisible btn-small right">Pobierz przystanki ponownie</button>
-        </p>
+        <footer id="footer">
+            <p>
+                Odjazdy
+                <span id="refresh-support-negation" class="invisible">nie </span>
+                odświeżają się automatycznie.
+                <button id="refresh-delays-button" class="invisible btn-small right">Odśwież</button>
+            </p>
+
+            <p>Dane przystanków: <span id="stop-last-update">...</span>
+                <button class="stop-update invisible btn-small right">Pobierz przystanki ponownie</button>
+            </p>
+        </footer>
     </div>
 </body>
 <template id="stop-template">
