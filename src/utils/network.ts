@@ -1,5 +1,5 @@
 export async function noCorsFetch(url: string): Promise<Response> {
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/" + url;
+    const proxyUrl = "https://cors.figiel.xyz/" + url;
     const res = await fetch(proxyUrl, {
         headers: {
             "x-requested-with": window.location.origin
