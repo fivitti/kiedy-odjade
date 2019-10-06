@@ -19,7 +19,7 @@ export function formatTimespan(totalMiliseconds: number, precision: 'days' | 'mi
     const totalMinutes = Math.trunc(totalSeconds / 60);
 
     if (precision === 'minutes') {
-        if (totalMinutes === 0) {
+        if (totalMinutes <= 0) {
             return "< 1 min";
         }
         return `${totalMinutes} min`;
