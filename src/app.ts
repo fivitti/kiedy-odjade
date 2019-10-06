@@ -106,12 +106,11 @@ export default class App {
     }
     
     private render() {
-        this.autoRefresh.run();
         
         const now = new Date();
         const rootElement = document.getElementById(this.rootId);
         rootElement.innerHTML = '';
-
+        
         const refreshAtElement = document.getElementById("refresh-at");
         refreshAtElement.textContent = now.toLocaleTimeString(undefined, { timeStyle: "short" } as any);
         
@@ -127,54 +126,57 @@ export default class App {
             if (checkErrorType(error, POSITION_ERROR_NAME)) {
                 titleElement.textContent = "Brak dostępu do lokalizacji";
                 messageElement.textContent = "Ta aplikacja do działania musi wiedzieć, gdzie jesteś. " +
-                    "Wszakże chodzi o to, aby pokazać najbliższe Tobie przystanki. " +
-                    "Odśwież stronę i tym razem zaakceptuj prośbę o użycie Twojego położenia." +
-                    "\n" +
-                    "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
-                    "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
-                } else {
-                    titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
-                    messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
-                    stackElement.textContent = error.stack;
-                }
-
-                retryButton.onclick = () => this.redraw();
+                "Wszakże chodzi o to, aby pokazać najbliższe Tobie przystanki. " +
+                "Odśwież stronę i tym razem zaakceptuj prośbę o użycie Twojego położenia." +
+                "\n" +
+                "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
+                "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
+            } else {
+                titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
+                messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
+                stackElement.textContent = error.stack;
+            }
+            
+            retryButton.onclick = () => this.redraw();
             rootElement.appendChild(errorElement);
             return;
         }
+
+        this.autoRefresh.run();
         
         const stopTemplate = document.getElementById("stop-template") as HTMLTemplateElement;
         const delayRowTemplate = document.getElementById("delay-row") as HTMLTemplateElement;
-
+        
         
         const stopsLastUpdateElement = document.querySelector("#stop-last-update");
         const stopLastUpdateStr = this.currentData.lastUpdate.toLocaleString();
-        const stopLastUpdateAgo = formatTimespan(+now - +this.currentData.lastUpdate, 'days');
-        stopsLastUpdateElement.textContent = `${stopLastUpdateStr} (${stopLastUpdateAgo})`;
-        
-        const source = this.source;
-        if (isCache(source)) {
-            const refreshButton = document.querySelector(".stop-update") as HTMLButtonElement;
-            refreshButton.onclick = () => {
-                refreshButton.classList.add("invisible");
-                this.renderLoader();
-                source.refresh()
-                .then(() => this.redraw());
+            const stopLastUpdateAgo = formatTimespan(+now - +this.currentData.lastUpdate, 'days');
+            stopsLastUpdateElement.textContent = `${stopLastUpdateStr} (${stopLastUpdateAgo})`;
+            
+            const source = this.source;
+            if (isCache(source)) {
+                const refreshButton = document.querySelector(".stop-update") as HTMLButtonElement;
+                refreshButton.onclick = () => {
+                    refreshButton.classList.add("invisible");
+                    this.renderLoader();
+                    source.refresh()
+                    .then(() => this.redraw());
+                }
+                
+                refreshButton.classList.remove("invisible");
             }
             
-            refreshButton.classList.remove("invisible");
-        }
-        
-        for (let stop of this.currentData.stopData) {
+
+            for (let stop of this.currentData.stopData) {
             const stopElement = document.importNode(stopTemplate.content, true);
             const stopNameElement = stopElement.querySelector(".stop-name");
             const stopDistanceElement = stopElement.querySelector(".stop-distance");
-
+            
             stopNameElement.textContent = stop.name;
             stopDistanceElement.textContent = formatDistance(stop.distance);
-
+            
             const tbodyElement = stopElement.querySelector("tbody");
-
+            
             if (stop.delays.length === 0) {
                 const row = document.createElement("tr");
                 const cell = document.createElement("td");
