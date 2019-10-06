@@ -1,8 +1,9 @@
-export async function noCorsFetch(url: string): Promise<Response> {
+export async function noCorsFetch(url: string, maxAge: number): Promise<Response> {
     const proxyUrl = "https://cors.figiel.xyz/" + url;
     const res = await fetch(proxyUrl, {
         headers: {
-            "x-requested-with": window.location.origin
+            "x-requested-with": window.location.origin,
+            "Cache-Control": `max-age=${maxAge}`
         }
     });
     if (res.ok) {
