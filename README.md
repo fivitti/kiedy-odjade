@@ -13,6 +13,7 @@ Url: https://fivitti.github.io/kiedy-odjade
 - [x] Loading data indicators
 - [x] Favicon
 - [x] Auto refesh
+- [ ] Self-hosted CORS Anywhere
 - [ ] Polish diacritics in font
 - [ ] English language
 - [ ] Display stops on the map

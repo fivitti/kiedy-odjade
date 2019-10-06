@@ -5,6 +5,7 @@ import { getCurrentPosition, Coordinates } from './utils/geo';
 import { isPageVisibilityApiSupported } from "./utils/pagevisibility";
 import { allInRadiusOrTopNearestStartegy } from "./select-strategies";
 import ForegroundTimer from './foreground-timer';
+import { HttpError } from './utils/network';
 
 interface StopAndDistance extends Stop {
     distance: number
@@ -115,7 +116,6 @@ export default class App {
 
         const refreshAtElement = document.getElementById("refresh-at");
         refreshAtElement.textContent = now.toLocaleTimeString(undefined, { timeStyle: "short" } as any);
-        //refreshAtElement.textContent = now.toISOString();
 
         if (isErrorRenderData(this.currentData)) {
             const errorTemplate = document.getElementById("error-template") as HTMLTemplateElement;
@@ -134,7 +134,14 @@ export default class App {
                     "\n" +
                     "Jeżeli nie widzisz, żadnego komunikatu sprawdź ustawienia uprawnień Twojej przeglądarki. " +
                     "Prawdopodobnie nie pozwoliłeś jej na dostęp do Twoich współrzędnych."
-            } else {
+            } else if (checkErrorType(error, "HttpError") && (error as HttpError).code === 429) {
+                titleElement.textContent = "Zbyt wiele zapytań";
+                messageElement.textContent = "Przekroczono maksymalną liczbę odświeżeń. " +
+                    "W tym momencie mamy niski limit sumarycznych zapytań do serwera. " +
+                    "Za godzinę wszystko powinno działać poprawnie. " +
+                    "Pracujemy nad rozwiązaniem problemu";
+            }
+            else {
                 titleElement.textContent = `${error.name} (${error.constructor.name}) [${error}]`;
                 messageElement.textContent = "Poniżej trochę nerdowskiego bełkotu. " + error.message;
                 stackElement.textContent = error.stack;
