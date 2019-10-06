@@ -175,7 +175,7 @@ export function decompressStopsModel(obj: CompressStopsModel): StopsModel {
 
 export async function getDelaysModel(stopId: number): Promise<DelayModel> {
     const url = delayUrl(stopId);
-    const response = await noCorsFetch(url, 30);
+    const response = await noCorsFetch(url);
     const data = await response.json() as DelayResponse;
     return {
         lastUpdate: parseDate(data.lastUpdate, "%Y-%M-%D %h:%m:%s"),

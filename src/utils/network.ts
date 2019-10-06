@@ -1,9 +1,8 @@
-export async function noCorsFetch(url: string, maxAge: number): Promise<Response> {
+export async function noCorsFetch(url: string): Promise<Response> {
     const proxyUrl = "https://cors.figiel.xyz/" + url;
     const res = await fetch(proxyUrl, {
         headers: {
-            "x-requested-with": window.location.origin,
-            "Cache-Control": `max-age=${maxAge}`
+            "x-requested-with": window.location.origin
         }
     });
     if (res.ok) {
@@ -14,7 +13,7 @@ export async function noCorsFetch(url: string, maxAge: number): Promise<Response
 }
 
 export class HttpError extends Error {
-    constructor (public code: number, public status: string) {
+    constructor(public code: number, public status: string) {
         super(`Http ${code} - ${status}`);
         this.name = "HttpError";
     }
