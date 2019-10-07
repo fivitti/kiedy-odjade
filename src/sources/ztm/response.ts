@@ -184,7 +184,8 @@ export async function getDelaysModel(stopId: number): Promise<DelayModel> {
                 seconds: d.delayInSeconds,
                 estimated: toTime(d.estimatedTime),
                 theoretical: toTime(d.theoreticalTime),
-                routeId: d.routeId
-            }) as Delay)
+                routeId: d.routeId,
+                headsign: d.headsign
+            }))
     };
 }

@@ -203,12 +203,14 @@ export default class App {
             for (let delay of stop.delays) {
                 const rowElement = document.importNode(delayRowTemplate.content, true);
                 const lineNoElement = rowElement.querySelector(".line-no");
+                const lineHeadsignElement = rowElement.querySelector(".line-headsign");
                 const lineEstimatedElement = rowElement.querySelector(".line-estimated");
                 const lineToArriveElement = rowElement.querySelector(".line-to-arrive");
 
                 lineNoElement.textContent = delay.routeId.toString();
                 lineToArriveElement.textContent = formatTimespan(+delay.estimated - +now);
                 lineEstimatedElement.textContent = formatTime(delay.estimated);
+                lineHeadsignElement.textContent = delay.headsign;
                 tbodyElement.appendChild(rowElement);
             }
 

@@ -11,7 +11,8 @@ export interface Delay {
     routeId: number,
     seconds: number,
     estimated: Date,
-    theoretical: Date
+    theoretical: Date,
+    headsign: string
 }
 
 export interface Timestamp<T> {
