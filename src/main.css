@@ -15,8 +15,9 @@
 }
 
 @media only screen and (max-width: 480px) {
-    .paper {
-        padding: 0.5rem;
+    .paper table {
+        padding-left: -0.75rem;
+        padding-right: -0.75rem;
     }
 }
 
