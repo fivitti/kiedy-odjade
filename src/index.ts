@@ -1,5 +1,5 @@
-import "./main.css";
 import "papercss/dist/paper.min.css";
+import "./main.css";
 
 import App from "./app";
 
