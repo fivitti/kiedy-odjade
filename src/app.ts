@@ -100,6 +100,9 @@ export default class App {
     private renderLoader() {
         this.autoRefresh.close();
 
+        const refreshButton = document.getElementById("refresh-delays-button");
+        refreshButton.classList.add("invisible");
+
         const rootElement = document.getElementById(this.rootId);
         const loaderTemplate = document.getElementById("loader-template") as HTMLTemplateElement;
         const loader = document.importNode(loaderTemplate.content, true);
@@ -173,12 +176,14 @@ export default class App {
 
             refreshButton.classList.remove("invisible");
         }
+
+        const refreshButton = document.querySelector("#refresh-delays-button") as HTMLButtonElement;
+        refreshButton.classList.remove("invisible");
+        refreshButton.onclick = () => this.redraw();
+
         if (!this.isAutoRefreshSupported) {
             const negationVerb = document.querySelector("#refresh-support-negation");
             negationVerb.classList.remove("invisible");
-            const refreshButton = document.querySelector("#refresh-delays-button") as HTMLButtonElement;
-            refreshButton.classList.remove("invisible");
-            refreshButton.onclick = () => this.redraw();
         }
 
         for (let stop of this.currentData.stopData) {

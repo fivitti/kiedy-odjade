@@ -19,3 +19,12 @@ export function getCurrentPosition(): Promise<Coordinates> {
         }, reject);
     })
 }
+
+export function registerPostionWatch(onChange: (coords: Coordinates) => void): () => void {
+    const handler = navigator.geolocation.watchPosition(c => onChange({
+        coordinateSystem: CoordinateSystem.WGS84,
+        latitude: c.coords.latitude,
+        longitude: c.coords.longitude
+    }));
+    return () => navigator.geolocation.clearWatch(handler);
+}

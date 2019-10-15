@@ -23,7 +23,8 @@ export default class LocalSource implements ISource {
                     routeId: randInt(1, 200),
                     theoretical,
                     estimated,
-                    seconds: Math.trunc((+estimated - +theoretical) * 1000)
+                    seconds: Math.trunc((+estimated - +theoretical) * 1000),
+                    headsign: "Stop " + randInt(1, 200)
 
                 }))
         };
