@@ -1,0 +1,29 @@
+html, body, #main {
+    height: 100%;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+}
+
+#content {
+    flex: 1;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: -1rem;
+}
+
+.leaflet-shadow-pane img, .leaflet-marker-pane img {
+    border: initial;
+    border-bottom-left-radius: initial;
+    border-bottom-right-radius: initial;
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+}
+
+.full-width {
+    width: 100%;
+}
+
+

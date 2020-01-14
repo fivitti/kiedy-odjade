@@ -28,3 +28,12 @@ export function registerPostionWatch(onChange: (coords: Coordinates) => void): (
     }));
     return () => navigator.geolocation.clearWatch(handler);
 }
+
+export function toLeafletOrder(coord: Coordinates): [number, number] {
+    return [coord.latitude, coord.longitude];
+}
+
+export async function hasGeolocationPermission(): Promise<boolean> {
+    const result = await navigator.permissions.query({name:'geolocation'});
+    return result.state === "granted";
+}

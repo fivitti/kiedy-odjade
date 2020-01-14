@@ -10,12 +10,19 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <script src='bundle.js' defer></script>
+    <script src='bundle-delay.js' defer></script>
 </head>
 
 <body>
     <div class="paper container">
-        <h2>Kiedy odjadę?</h2>
+        <div class="row full-width">
+            <div class="col col-fill">
+                <h2>Kiedy odjadę?</h2>
+            </div>
+            <div class="col sm-2">
+                <a href="/map" class="paper-btn">Mapa</a>
+            </div>
+        </div>
         <p>Najbliższe odjazdy ZTM Trójmiasto
             <span class="right">Odświeżono:
                 <span id="refresh-at">...</span>

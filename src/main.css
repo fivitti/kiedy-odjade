@@ -2,27 +2,10 @@
     float: right
 }
 
-.loader-container {
-    text-align: center;
-}
-
-.blink {
-    animation: blinker 2s linear infinite;
-}
-
-.invisible {
-    display: none;
-}
 
 @media only screen and (max-width: 480px) {
     .paper {
         padding-left: 0.4rem;
         padding-right: 0.4rem;
-    }
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
     }
 }

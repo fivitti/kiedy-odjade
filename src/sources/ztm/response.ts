@@ -1,11 +1,15 @@
-import { Delay, Timestamp } from '..';
+import { Delay, Timestamp, Vehicle as VehicleModel } from '..';
 import { mapObject } from '../../utils/functional';
 import { noCorsFetch } from '../../utils/network';
-import { STOPS_API } from './config';
+import { STOPS_API, LIVE_API } from './config';
 import { delayUrl, toTime } from './utils';
 import { parseDate } from '../../utils/dates';
+import { CoordinateSystem } from '../../utils/geo';
 
 type DelayModel = Timestamp<Delay[]>;
+type LiveModel = Timestamp<VehicleModel[]>;
+
+const DATE_FORMAT = "%Y-%M-%D %h:%m:%s";
 
 interface StopResponse {
     stopId: number,
@@ -39,6 +43,25 @@ interface StopsResponseEntry {
 
 interface StopsResponse {
     [key: string]: StopsResponseEntry
+}
+
+interface VehicleResponse {
+    DataGenerated: string,
+    Line: string,
+    Route: string,
+    VehicleCode: string,
+    VehicleService: string,
+    VehicleId: number,
+    Speed: number,
+    Delay: number,
+    Lat: number,
+    Lon: number,
+    GPSQuality: number
+}
+
+interface LiveResponse {
+    lastUpdate: string,
+    vehicles: VehicleResponse[]
 }
 
 export interface CompressStopsModel {
@@ -112,7 +135,7 @@ function toStopsModel(obj: StopsResponse): StopsModel {
 
     const lastUpdate = keys
         .map(k => obj[k].lastUpdate)
-        .map(d => parseDate(d, "%Y-%M-%D %h:%m:%s"))
+        .map(d => parseDate(d, DATE_FORMAT))
         .sort((a, b) => +b - +a)[0];
 
     const stops = mapObject(obj,
@@ -178,7 +201,7 @@ export async function getDelaysModel(stopId: number): Promise<DelayModel> {
     const response = await noCorsFetch(url);
     const data = await response.json() as DelayResponse;
     return {
-        lastUpdate: parseDate(data.lastUpdate, "%Y-%M-%D %h:%m:%s"),
+        lastUpdate: parseDate(data.lastUpdate, DATE_FORMAT),
         data: data.delay
             .map(d => ({
                 seconds: d.delayInSeconds,
@@ -186,6 +209,26 @@ export async function getDelaysModel(stopId: number): Promise<DelayModel> {
                 theoretical: toTime(d.theoreticalTime),
                 routeId: d.routeId,
                 headsign: d.headsign
+            }))
+    };
+}
+
+export async function getLiveModel(): Promise<LiveModel> {
+    const url = LIVE_API;
+    const response = await noCorsFetch(url);
+    const data = await response.json() as LiveResponse;
+    return {
+        lastUpdate: parseDate(data.lastUpdate, DATE_FORMAT),
+        data: data.vehicles
+            .map(v => ({
+                coordinateSystem: CoordinateSystem.WGS84,
+                delay: v.Delay,
+                gpsQuality: v.GPSQuality,
+                latitude: v.Lat,
+                line: v.Line,
+                longitude: v.Lon,
+                speed: v.Speed,
+                vehicleId: v.VehicleId
             }))
     };
 }

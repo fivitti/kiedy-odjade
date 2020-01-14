@@ -4,12 +4,14 @@
   "description": "My webpack project",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf build dist",
-    "build": "rollup",
-    "start": "npm run build -- -c rollup.config.debug.js",
+    "clear": "rimraf build dist",
+    "build:delay": "rollup -c rollup.delay.config.debug.js",
+    "build:map": "rollup -c rollup.map.config.debug.js",
+    "build-all": "npm run clear && npm run build:delay && npm run build:map",
+    
     "server-ssl": "npm run server -- --ssl -C cert/server.cert -K cert/server.key",
     "server": "http-server ./dist -g",
-    "deploy": "npm run build -- -c rollup.config.deploy.js && gh-pages -d dist"
+    "deploy": "npm run clear && rimraf -c rollup.delay.config.deploy.js && rimraf -c rollup.map.config.deploy && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "papercss": "^1.6.1"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.5.7",
     "cssnano": "^4.1.10",
     "gh-pages": "^2.1.1",
     "http-server": "=0.9.0",

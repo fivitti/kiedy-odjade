@@ -8,12 +8,12 @@ import typescript from 'rollup-plugin-typescript2';
 const pkg = require('./package.json')
 
 export default {
-    input: `src/index.ts`,
+    input: `src/index-delay.ts`,
     output: [{
-        file: "dist/bundle.js",
+        file: "dist/bundle-delay.js",
         format: 'es',
         sourcemap: true
-    }, ],
+    }],
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
     external: [],
     watch: {

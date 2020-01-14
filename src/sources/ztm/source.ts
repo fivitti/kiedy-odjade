@@ -1,6 +1,6 @@
-import { Delay, ISource, Stop, Timestamp } from '..';
+import { Delay, ISource, Stop, Timestamp, Vehicle } from '..';
 import { CoordinateSystem } from '../../utils/geo';
-import { getDelaysModel, getStopsModel, StopModel, StopsModel } from './response';
+import { getDelaysModel, getStopsModel, StopModel, StopsModel, getLiveModel } from './response';
 import { getDateKey } from './utils';
 
 export class ZtmSource implements ISource {
@@ -32,7 +32,11 @@ export class ZtmSource implements ISource {
         };
     }
 
-    async getDelays(stopId: number): Promise<Timestamp<Delay[]>> {
+    getDelays(stopId: number): Promise<Timestamp<Delay[]>> {
         return getDelaysModel(stopId);
+    }
+
+    getLive(): Promise<Timestamp<Vehicle[]>> {
+        return getLiveModel();
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Kiedy odjadę? - ZTM Trójmiasto</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+    <script src='bundle-map.js' defer></script>
+</head>
+
+<body>
+    <div class="paper container" id="main">
+        <div class="row full-width">
+            <div class="col col-fill">
+                <h2>Kiedy odjadę?</h2>
+            </div>
+            <div class="col sm-2">
+                <a href="/" class="paper-btn">Odjazdy</a>
+            </div>
+        </div>
+        <p>Pozycje pojazdów i przystanków w Twojej okolicy</p>
+        <div id="content">
+            <div class="loader-container">
+                <h2 class="blink">Ładuję</h2>
+            </div>
+        </div>
+    </div>
+</body>

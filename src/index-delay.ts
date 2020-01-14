@@ -1,9 +1,10 @@
 import "papercss/dist/paper.min.css";
 import "./main.css";
+import "./loader.css";
 
-import App from "./app";
+import DelayApp from "./delay-app";
 
-const app = new App("content");
+const app = new DelayApp("content");
 app.init()
     .then(() => app.redraw())
     .catch((err) => {

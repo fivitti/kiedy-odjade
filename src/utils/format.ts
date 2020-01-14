@@ -14,8 +14,10 @@ export function formatDate(date: Date) {
     return date.toLocaleDateString();
 }
 
-export function formatTimespan(totalMiliseconds: number, precision: 'days' | 'minutes' = 'minutes'): string {
-    const totalSeconds = Math.trunc(totalMiliseconds / 1000);
+export function formatTimespan(totalMilliseconds: number, precision: 'days' | 'minutes' = 'minutes'): string {
+    //const isMinus = totalMilliseconds < 0;
+    totalMilliseconds = Math.abs(totalMilliseconds);
+    const totalSeconds = Math.trunc(totalMilliseconds / 1000);
     const totalMinutes = Math.trunc(totalSeconds / 60);
 
     if (precision === 'minutes') {

@@ -1,0 +1,18 @@
+.loader-container {
+    text-align: center;
+}
+
+.blink {
+    animation: blinker 2s linear infinite;
+}
+
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.invisible {
+    display: none;
+}

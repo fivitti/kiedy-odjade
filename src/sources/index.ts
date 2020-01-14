@@ -15,6 +15,14 @@ export interface Delay {
     headsign: string
 }
 
+export interface Vehicle extends Coordinates {
+    line: string,
+    vehicleId: number,
+    speed: number,
+    delay: number,
+    gpsQuality: number
+}
+
 export interface Timestamp<T> {
     lastUpdate: Date,
     data: T
@@ -23,6 +31,7 @@ export interface Timestamp<T> {
 export interface ISource {
     getStops(day?: Date): Promise<Timestamp<Stop[]>>;
     getDelays(stopId: number): Promise<Timestamp<Delay[]>>;
+    getLive(): Promise<Timestamp<Vehicle[]>>;
 }
 
 export interface ICache {

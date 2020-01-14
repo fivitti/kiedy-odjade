@@ -46,7 +46,7 @@ export default class App {
     };
     //private source: ISource = new LocalSource();
     private source: ISource = new ZtmSource();
-    private stopsSelector = allInRadiusOrTopNearestStartegy(300, 5);
+    private stopsSelector = allInRadiusOrTopNearestStartegy(350, 5);
     private autoRefresh = new ForegroundTimer(60 * 1000, () => this.redraw());
     private isAutoRefreshSupported = isPageVisibilityApiSupported();
 

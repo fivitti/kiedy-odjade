@@ -11,9 +11,9 @@ import typescript from 'rollup-plugin-typescript2';
 const pkg = require('./package.json')
 
 export default {
-  input: `src/index.ts`,
+  input: `src/index-map.ts`,
   output: [
-    { file: "dist/bundle.js", format: 'es', sourcemap: false },
+    { file: "dist/bundle-map.js", format: 'es', sourcemap: false },
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [],
@@ -43,8 +43,9 @@ export default {
     }),
     gzipPlugin(),
     copy([
-      { files: "index.html", dest: "dist" },
-      { files: "res/favicon/*", dest: "dist" }
+      { files: "map.html", dest: "dist" },
+      { files: "res/markers/*", dest: "dist/markers" },
+      { files: "res/favicon/favicon-32x32.png", dest: "dist/markers"}
     ], { verbose: true })
   ],
 }
