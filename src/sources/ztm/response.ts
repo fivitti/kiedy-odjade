@@ -60,8 +60,8 @@ interface VehicleResponse {
 }
 
 interface LiveResponse {
-    lastUpdate: string,
-    vehicles: VehicleResponse[]
+    LastUpdateData: string,
+    Vehicles: VehicleResponse[]
 }
 
 export interface CompressStopsModel {
@@ -218,8 +218,8 @@ export async function getLiveModel(): Promise<LiveModel> {
     const response = await noCorsFetch(url);
     const data = await response.json() as LiveResponse;
     return {
-        lastUpdate: parseDate(data.lastUpdate, DATE_FORMAT),
-        data: data.vehicles
+        lastUpdate: parseDate(data.LastUpdateData, DATE_FORMAT),
+        data: data.Vehicles
             .map(v => ({
                 coordinateSystem: CoordinateSystem.WGS84,
                 delay: v.Delay,

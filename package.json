@@ -10,7 +10,7 @@
     "build-all": "npm run clear && npm run build:delay && npm run build:map",
     
     "server-ssl": "npm run server -- --ssl -C cert/server.cert -K cert/server.key",
-    "server": "http-server ./dist -g",
+    "server": "http-server -p 6754 ./dist -g",
     "deploy": "npm run clear && rollup -c rollup.delay.config.deploy.js && rollup -c rollup.map.config.deploy.js && gh-pages -d dist"
   },
   "repository": {

@@ -42,7 +42,7 @@ export default class App {
         container.innerHTML = "";
 
         const map = L.map(container)
-        map.setView(toLeafletOrder(position), 13);
+        map.setView(toLeafletOrder(position), 16);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -74,17 +74,16 @@ export default class App {
     public async redraw(): Promise<void> {
         this.autoRefresh.close();
         const permissionGranted = this.userMarker != null;
-        const position = permissionGranted ? await getCurrentPosition() : null;
+        const center = this.map.getCenter();
+        const position = permissionGranted ? await getCurrentPosition() : ({ coordinateSystem: CoordinateSystem.WGS84, latitude: center.lat, longitude: center.lng });
         const live = await this.source.getLive();
         const stopSet = await this.source.getStops();
 
         let vehicles = live.data;
         let stops = stopSet.data;
 
-        if (permissionGranted) {
-            vehicles = applySelectorFromPoint(this.selector, position, vehicles);
-            stops = applySelectorFromPoint(this.selector, position, stops);
-        }
+        vehicles = applySelectorFromPoint(this.selector, position, vehicles);
+        stops = applySelectorFromPoint(this.selector, position, stops);
 
         const markersToDelete = difference(new Set(Object.keys(this.markers)), new Set(vehicles.map(v => v.vehicleId + "")));
         for (const vehicle of vehicles) {
