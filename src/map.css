@@ -12,6 +12,7 @@ html, body, #main {
     margin-left: -1rem;
     margin-right: -1rem;
     margin-bottom: -1rem;
+    min-height: 300px;
 }
 
 .leaflet-shadow-pane img, .leaflet-marker-pane img {
@@ -24,10 +25,4 @@ html, body, #main {
 
 .full-width {
     width: 100%;
-}
-
-@media only screen and (max-height: 600px) {
-    #content {
-        min-height: 300px;
-    }
 }
