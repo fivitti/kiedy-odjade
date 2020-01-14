@@ -14,8 +14,8 @@ export default class App {
     private selector = allInRadiusOrTopNearestStartegy(300, 5);
     private autoRefresh = new ForegroundTimer(60 * 1000, () => this.redraw());
     private isAutoRefreshSupported = isPageVisibilityApiSupported();
-    private source: ISource = new LocalSource();
-    //private source: ISource = new ZtmSource();
+    //private source: ISource = new LocalSource();
+    private source: ISource = new ZtmSource();
     private map: L.Map = null;
     private markers: Record<string, L.Marker> = {};
     private userMarker: AngleMarker = null;
@@ -59,7 +59,7 @@ export default class App {
 
             this.previousPosition = L.latLng(position.latitude, position.longitude);
             map.on('locationfound', this.onLocationFound);
-            map.locate({setView: true, watch: true, maxZoom: 20});
+            map.locate({setView: false, watch: true, maxZoom: 20});
         }
         this.map = map;
     }
@@ -68,6 +68,7 @@ export default class App {
         const angle = this.userMarker.getAngle(this.previousPosition, e.latlng);
         this.userMarker.setHeading(angle);
         this.previousPosition = e.latlng;
+        console.count("New position");
     }
 
     public async redraw(): Promise<void> {
