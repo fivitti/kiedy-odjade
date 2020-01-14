@@ -1,18 +1,9 @@
-html, body, #main {
-    height: 100%;
-}
-
-#main {
-    display: flex;
-    flex-direction: column;
-}
 
 #content {
-    flex: 1;
     margin-left: -1rem;
     margin-right: -1rem;
     margin-bottom: -1rem;
-    min-height: 300px;
+    width: 80vh;
 }
 
 .leaflet-shadow-pane img, .leaflet-marker-pane img {
@@ -25,4 +16,11 @@ html, body, #main {
 
 .full-width {
     width: 100%;
+}
+
+@media only screen and (max-width: 480px) {
+    .paper {
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+    }
 }
