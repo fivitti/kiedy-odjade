@@ -11,7 +11,7 @@
     
     "server-ssl": "npm run server -- --ssl -C cert/server.cert -K cert/server.key",
     "server": "http-server ./dist -g",
-    "deploy": "npm run clear && rimraf -c rollup.delay.config.deploy.js && rimraf -c rollup.map.config.deploy && gh-pages -d dist"
+    "deploy": "npm run clear && rollup -c rollup.delay.config.deploy.js && rollup -c rollup.map.config.deploy.js && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
