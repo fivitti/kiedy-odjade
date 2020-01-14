@@ -26,4 +26,8 @@ html, body, #main {
     width: 100%;
 }
 
-
+@media only screen and (max-height: 600px) {
+    #content {
+        min-height: 300px;
+    }
+}
