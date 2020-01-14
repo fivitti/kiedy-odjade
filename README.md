@@ -16,6 +16,6 @@ Url: https://fivitti.github.io/kiedy-odjade
 - [x] Self-hosted CORS Anywhere
 - [ ] Polish diacritics in font
 - [ ] English language
-- [ ] Display stops on the map
-- [ ] Display vehicle positions
+- [x] Display stops on the map
+- [x] Display vehicle positions
 - [ ] SKM data
