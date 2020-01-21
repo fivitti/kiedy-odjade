@@ -11,8 +11,8 @@ import { isPageVisibilityApiSupported } from "./utils/pagevisibility";
 import { angleMarker, AngleMarker } from "./utils/leaflet/marker-direction";
 
 export default class App {
-    private selector = allInRadiusOrTopNearestStartegy(300, 5);
-    private autoRefresh = new ForegroundTimer(60 * 1000, () => this.redraw());
+    private selector = allInRadiusOrTopNearestStartegy(400, 10);
+    private autoRefresh = new ForegroundTimer(20 * 1000, () => this.redraw());
     private isAutoRefreshSupported = isPageVisibilityApiSupported();
     //private source: ISource = new LocalSource();
     private source: ISource = new ZtmSource();
@@ -67,6 +67,7 @@ export default class App {
     private onLocationFound(e: L.LocationEvent) {
         const angle = this.userMarker.getAngle(this.previousPosition, e.latlng);
         this.userMarker.setHeading(angle);
+        this.userMarker.setLatLng(e.latlng);
         this.previousPosition = e.latlng;
         console.count("New position");
     }
@@ -116,7 +117,7 @@ export default class App {
             });
             marker.addTo(this.map);
             marker.bindPopup(`${stop.name}`);
-            marker.bindTooltip(stop.name, { permanent: true, });
+            //marker.bindTooltip(stop.name, { permanent: true, });
         }
 
         this.autoRefresh.run();
